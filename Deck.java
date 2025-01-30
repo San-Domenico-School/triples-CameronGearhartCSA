@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import greenfoot.*;
 /**
  * Write a description of class Deck here.
  * 
@@ -5,14 +7,95 @@
  * @version (a version number or a date)
  */
 
-import greenfoot.*;
+
 
 public class Deck 
 {
-    /****************************************************
-    ***   Leave as comment until ready to implement   ***
-    *****************************************************
-    // adds all the cards to the unshuffled deck.   
+    private Card[] unShuffledDeck;
+    //private ArrayList shuffledDeck = new ArrayList<Card>();
+    private ArrayList<Card> shuffledDeck;
+    private final int NUM_CARDS_IN_DECK;
+    
+    public Deck(int numOfCardsInDeck)
+    {
+        numOfCardsInDeck = limitNumCardsInDeck(numOfCardsInDeck);  // limits size to 27 or 81        
+        unShuffledDeck = new Card[numOfCardsInDeck + 1];           // playing cards plus blank card
+        shuffledDeck = new ArrayList<>();                          // Instantiates ArrayList with no elements
+        populateUnshuffledDeckWithCards(numOfCardsInDeck);         // Initializes Unshuffled Deck
+        createShuffledDeck();
+        NUM_CARDS_IN_DECK = numOfCardsInDeck;
+        // Initializes shuffled deck excluding blank card
+    }
+    
+    public int getNumCardsInDeck()
+    {
+        return shuffledDeck.size();
+    }
+    
+    public Card getTopCard()
+    {
+        return (Card) shuffledDeck.remove(0);
+    }
+    
+    public ArrayList<Card> getShuffledDeck()
+    {
+        return shuffledDeck;
+    }
+    
+    protected int limitNumCardsInDeck (int number)
+    {
+        if (number <= 27)
+        {
+            return 27;
+        }
+        else
+        {
+            return 81;
+        }
+    }
+    
+    protected Card getShuffledCard(int index)
+    {
+        return (Card) shuffledDeck.get(index);
+    }
+    // getShuffledCard uses get(index) to find the card at the given location
+    // getShuffledDeck returns the Arraylist shuffled deck
+    // limitNumberOfCardsInDeck limits how manby cards are in the deck
+    
+    private void createShuffledDeck()
+    {
+        /**
+        ArrayList positionsRemaining = new ArrayList <Integer>();
+        int i = 0;
+        for (Card card : unShuffledDeck)
+        {
+            shuffledDeck.add(card);
+            positionsRemaining.add(i);
+            i++;
+        }
+        shuffledDeck.remove(0);
+        int currentIndex;
+        //positionsRemaining.remove(0);
+        for (Card card : unShuffledDeck)
+        {
+            currentIndex = (int)((positionsRemaining.size()) * Math.random());
+            
+            shuffledDeck.set(currentIndex, card);
+            
+            positionsRemaining.remove(currentIndex);
+        }
+        System.out.println(getNumCardsInDeck());
+    }
+    **/
+        for (Card card: unShuffledDeck)
+        {
+            shuffledDeck.add((int)(shuffledDeck.size()* Math.random()),card);
+        }
+        shuffledDeck.remove(NUM_CARDS_IN_DECK);
+    }   
+    
+
+    
     private void populateUnshuffledDeckWithCards(int numOfCardsInDeck)        
     {
         unShuffledDeck[0] = new Card(Card.Shape.NO_SHAPE, Card.Color.NO_COLOR,0,0,
@@ -268,6 +351,4 @@ public class Deck
                 }
           }
     }
-    
-    **************  END OF COMMENT BLOCK  ***************/
 }
