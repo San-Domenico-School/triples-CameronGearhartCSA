@@ -9,17 +9,14 @@ import java.util.ArrayList;
 public class Dealer extends Actor
 {
     private Deck deck;
-    private ArrayList<Card> cardOnBoard;
-    private ArrayList<Integer> selectedCardsIndex;
-    private Card[] cardsSelected;
     private int numCardsInDeck, triplesRemaining;
+    private ArrayList<Card> cardsSelected = new ArrayList<>();
     
     public Dealer(int cardsInDeck)
     {
         numCardsInDeck = cardsInDeck;
         triplesRemaining  = cardsInDeck / 3;
         deck = new Deck(numCardsInDeck);
-        cardsSelected = new Card[3];
     }
     
     public void addedToWorld(World world)
@@ -27,6 +24,39 @@ public class Dealer extends Actor
         dealBoard();
         setUI();
     }
+    
+    // Returns the list of currently selected cards.
+    public ArrayList<Card> getSelectedCards() 
+    {
+        return cardsSelected;
+    }
+
+// Adds a card to the selection.
+    public void addSelectedCard(Card card) 
+    {
+        if (!cardsSelected.contains(card)) 
+        {
+            cardsSelected.add(card);
+        }
+    }
+
+// Removes a card from the selection.
+    public void removeSelectedCard(Card card) 
+    {
+        cardsSelected.remove(card);
+    }
+
+// Resets the selection by updating the card images and clearing the list.
+    public void resetSelectedCards() 
+    {
+        for (Card card : cardsSelected) 
+        {
+            card.setIsSelected(false);
+            card.setImage(card.getCardImage());
+        }
+        cardsSelected.clear();
+    }
+
     
     public void dealBoard()
     {
@@ -41,7 +71,7 @@ public class Dealer extends Actor
                 }
                 else
                 {
-                    getWorld().addObject(deck.getTopCard(), j * 130 + 80, i * 80 + 60);
+                    getWorld().addObject(deck.getRandomCard(), j * 130 + 80, i * 80 + 60);
                 }   
             }
         }
@@ -66,7 +96,7 @@ public class Dealer extends Actor
     
     public void checkIfTriple() 
     {
-        
+        isTriple(cardsSelected.get(0), cardsSelected.get(1), cardsSelected.get(2));
     }
 
     
@@ -77,12 +107,16 @@ public class Dealer extends Actor
 
     public void setCardsSelected(ArrayList<Card> cardList, ArrayList<Integer> indexList, Card[] cardArray) 
     {
-        
+        for (int i = 0; i<3;i++)
+        {
+            cardsSelected.add(i, cardArray[i]);
+        }
     }
     
     
     public boolean isTriple(Card card1, Card card2, Card card3)
     {
+        /**
         if (!(card1.getColor() == card2.getColor() && card2.getColor() == card3.getColor()))
         {
             if (!((card1.getColor() != card2.getColor()) && (card2.getColor() != card3.getColor()) && (card1.getColor() != card3.getColor())))
@@ -116,5 +150,25 @@ public class Dealer extends Actor
         }
         
         return true;
+        */
+       System.out.println(card1.attributes);
+       System.out.println(card2.attributes);
+       System.out.println(card3.attributes);
+       for (int i = 0; i < 4; i++) {
+        Object a1 = card1.attributes.get(i);
+        Object a2 = card2.attributes.get(i);
+        Object a3 = card3.attributes.get(i);
+        // "all same" OR "all different"
+        if (!((a1.equals(a2) && a2.equals(a3)) ||
+              (!a1.equals(a2) && !a2.equals(a3) && !a1.equals(a3)))) {
+            System.out.println("not");
+            return false;
+        }
     }
+    System.out.println("is");
+    return true;
+
+
+    }
+    
 }

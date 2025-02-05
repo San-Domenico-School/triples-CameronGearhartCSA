@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.ArrayList;
 /**
  * Write a description of class Card here.
  * 
@@ -17,7 +17,7 @@ public class Card extends Actor
     {
         CIRCLE, TRIANGLE, SQUARE, NO_SHAPE
     }
-    
+    public ArrayList<Object> attributes = new ArrayList();
     private Shape shape;
     private Color color;
     private boolean isSelected;
@@ -41,6 +41,10 @@ public class Card extends Actor
         this.cardImage = cardImage;
         this.selectedCardImage = selectedCardImage;
         this.isSelected = false;
+        attributes.add(shape);
+        attributes.add(color);
+        attributes.add(numberOfShapes);
+        attributes.add(shading);
         setImage(cardImage);
     }
     

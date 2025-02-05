@@ -1,78 +1,54 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Write a description of class Player here.
+ * This is the player. It acts as the player
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * Cameron 
+ * V.1
  */
+
 public class Player extends Actor
 {
-    private ArrayList<Card> cardsOnBoard;
-    private ArrayList<Integer> selectedCardsIndex;
-    private Card[] cardsSelected;
     private Dealer dealer;
     
-    public Player(Dealer inDealer)
+    public Player(Dealer dealer)
     {
-        dealer = inDealer;
-        cardsSelected = new Card[3];
-        cardsOnBoard = new ArrayList<>();
-        selectedCardsIndex = new ArrayList<>();
+        this.dealer = dealer;
     }
     
     public void act()
     {
-        selectCards();
-        boolean threeCardsHaveBeenSelected = setCardsSelected();
-        if (threeCardsHaveBeenSelected)
-        {
-            dealer.setCardsSelected(cardsOnBoard, selectedCardsIndex, cardsSelected);
-            dealer.checkIfTriple();
-            resetCardsSelected();
-        }
-    }
-    
-    public void addedToWorld(World inWorld)
-    {
-        cardsOnBoard = (ArrayList) getWorld().getObjects(Card.class);
-    }
-    
-    private void selectCards()
-    {
+        // Retrieve the current cards on the board directly from the world.
+        List<Card> cardsOnBoard = getWorld().getObjects(Card.class);
+        
+        // Check each card for mouse clicks.
         for (Card card : cardsOnBoard)
         {
-            if(Greenfoot.mouseClicked(card))
+            if (Greenfoot.mouseClicked(card))
             {
                 if (card.getIsSelected())
                 {
+                    // Deselect the card if it is already selected.
                     card.setIsSelected(false);
                     card.setImage(card.getCardImage());
-                    selectedCardsIndex.remove(card);
+                    dealer.removeSelectedCard(card);
                 }
                 else 
                 {
+                    // Select the card and update its image.
                     card.setIsSelected(true);
                     card.setImage(card.getSelectedCardImage());
-                    selectedCardsIndex.add(cardsOnBoard.indexOf(card));
+                    dealer.addSelectedCard(card);
                 }
             }
         }
-    }
-    private void resetCardsSelected()
-    {
-        for (Card card : cardsOnBoard)
+        
+        // If exactly three cards have been selected, check for a triple and reset the selection.
+        if (dealer.getSelectedCards().size() == 3)
         {
-            card.setImage(card.getCardImage());
-            card.setIsSelected(false);
-            selectedCardsIndex.clear();
+            dealer.checkIfTriple();
+            dealer.resetSelectedCards();
         }
     }
-    
-    private boolean setCardsSelected()
-    {
-        return selectedCardsIndex.size() == 3;
-    }
-    
-    
 }
