@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-import java.util.ArrayList;
+
 /**
  * Write a description of class Card here.
  * 
@@ -8,22 +8,21 @@ import java.util.ArrayList;
  */
 public class Card extends Actor
 {
-    public enum Color 
+    private enum Color 
     {
-        RED, BLUE, GREEN, NO_COLOR
+        red, blue, green
     }
     
-    public enum Shape
+    private enum Shape
     {
-        CIRCLE, TRIANGLE, SQUARE, NO_SHAPE
+        circle, triangle, square
     }
-    public ArrayList<Object> attributes = new ArrayList();
+    
     private Shape shape;
     private Color color;
     private boolean isSelected;
     private int numberOfShapes, shading;
-    private GreenfootImage cardImage; 
-    private GreenfootImage selectedCardImage;
+    private GreenfootImage cardImage, selectedCardImage;
     
     public Card
     (
@@ -31,20 +30,16 @@ public class Card extends Actor
     Color cardColor,
     int cardNumberOfShapes, 
     int cardShading, 
-    GreenfootImage cardImage,
+    GreenfootImage cardImage, 
     GreenfootImage selectedCardImage) 
     {
-        this.shape = cardShape;
-        this.color = cardColor;
-        this.numberOfShapes = cardNumberOfShapes;
-        this.shading = cardShading;
-        this.cardImage = cardImage;
-        this.selectedCardImage = selectedCardImage;
-        this.isSelected = false;
-        attributes.add(shape);
-        attributes.add(color);
-        attributes.add(numberOfShapes);
-        attributes.add(shading);
+        shape = cardShape;
+        color = cardColor;
+        numberOfShapes = cardNumberOfShapes;
+        shading = cardShading;
+        cardImage = cardImage;
+        selectedCardImage = selectedCardImage;
+        isSelected = false;
         setImage(cardImage);
     }
     
@@ -77,47 +72,37 @@ public class Card extends Actor
     {
         numberOfShapes = newNumberOfShapes;
     }
-    
-     public boolean getIsSelected() 
-    {
+     public boolean isSelected() {
         return isSelected;
     }
 
-    public void setIsSelected(boolean isSelected) 
-    {
-        this.isSelected = isSelected;
+    public void setSelected(boolean isSelected) {
+        isSelected = isSelected;
     }
 
-    public int getShading() 
-    {
+    public int getShading() {
         return shading;
     }
 
-    public void setShading(int shading) 
-    {
+    public void setShading(int shading) {
         shading = shading;
     }
 
-    public GreenfootImage getCardImage() 
-    {
+    public GreenfootImage getCardImage() {
         return cardImage;
     }
 
-    public void setCardImage(GreenfootImage cardImage) 
-    {
+    public void setCardImage(GreenfootImage cardImage) {
         cardImage = cardImage;
     }
 
-    public GreenfootImage getSelectedCardImage() 
-    {
+    public GreenfootImage getSelectedCardImage() {
         return selectedCardImage;
     }
 
-    public void setSelectedCardImage(GreenfootImage selectedCardImage) 
-    {
+    public void setSelectedCardImage(GreenfootImage selectedCardImage) {
         selectedCardImage = selectedCardImage;
     }
-    
     public void act()
     {
         // Add your action code here.
